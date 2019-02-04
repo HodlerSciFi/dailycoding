@@ -1,4 +1,4 @@
-colorBox cb1, cb2, cb3, cb4;
+colorBox[] colorBoxes = new colorBox[20] ;
 
 void setup() {
   size(400, 400);
@@ -6,18 +6,32 @@ void setup() {
   colorMode(HSB, 360, 100, 100);
   background(0, 0, 100); //白
   noLoop();
-  cb1 = new colorBox(width/2 - 50, height/2, 100, 200, 20, 10, 60);
-  cb2 = new colorBox(width/2 - 25, height/2, 50, 50, 20, 30, 60);
-  cb3 = new colorBox(width/2 + 50, height/2, 100, 200, 20, 50, 60);
-  cb4 = new colorBox(width/2 + 25, height/2, 50, 50, 20, 80, 60);
+
+  float boxCentX;
+  float boxCentY;
+  float boxWidth;
+  float boxHeight;
+  float hue;
+  float sat;
+  float bright;
+  for (int i = 0; i < 20; i ++) {
+    boxCentX = random(0, width);
+    boxCentY = random(0, height);
+    boxWidth = random(10, 200);
+    boxHeight = random(10, 200);
+    hue = random(0, 360);
+    sat = random(0, 100);
+    bright = random(0, 100);
+    colorBoxes[i] = new colorBox(boxCentX, boxCentY, 
+      boxWidth, boxHeight, hue, sat, bright);
+  }
 }
 
 void draw() {
-  cb1.display();
-  cb2.display();
-  cb3.display();
-  cb4.display();
-  save("20190204.png");
+  for (int i = 0; i < 20; i ++) {
+    colorBoxes[i].display();
+  }
+  save("20190205.png");
 }
 
 class colorBox {
@@ -29,7 +43,7 @@ class colorBox {
   float sat;
   float bright;
   colorBox(float _boxCentX, float _boxCentY, float _boxWidth, float _boxHeight, 
-      float _hue, float _sat, float _bright) {
+    float _hue, float _sat, float _bright) {
     boxCentX = _boxCentX;
     boxCentY = _boxCentY;
     boxWidth = _boxWidth;
@@ -40,7 +54,7 @@ class colorBox {
   }
 
   void display() {
-    noStroke();
+    stroke(0, 0, 100);
     fill(hue, sat, bright);
     rect(boxCentX - boxWidth/2, boxCentY - boxHeight/2, boxWidth, boxHeight);
   }
