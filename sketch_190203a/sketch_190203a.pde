@@ -9,16 +9,15 @@ void setup() {
   //Hue色相 (0-360), Saturation彩度 (0-100%), Brightness明度 (0-100%)
   colorMode(HSB, 360, 100, 100);
   background(0, 0, 100); //白
-  //noLoop();
   frameRate(3);
 
-  gifExport = new GifMaker(this, "20190206.gif"); 
+  gifExport = new GifMaker(this, "20190207.gif"); 
   gifExport.setRepeat(0); 
   gifExport.setQuality(10); 
   gifExport.setDelay(300);
 
-  float x = width/2 - 100;
-  float y = height/2 - 100;
+  float x = width/2 - 50;
+  float y = height/2 - 80;
   float bWidth;
   float bHeight;
   float h;
@@ -44,17 +43,24 @@ void setup() {
 void draw() {
   for (int i = 0; i < boxNum; i ++) {
     colorBoxes[i].display();
-    //colorBoxes[i].hue = random(0, 360);
-    colorBoxes[i].sat = random(0, 100);
-    //colorBoxes[i].bright = random(0, 100);
+    colorBoxes[i].sat = mapNoise(colorBoxes[i].tsat , 0, 100);
+    colorBoxes[i].tsat += 1;
   }
-  //save("20190206.png");
   gifExport.addFrame();
+  
 }
 
 void mouseClicked() {
   gifExport.finish();
   exit();
+}
+
+//パーリンノイズのマッピング関数
+float mapNoise(float t, float mapMin, float mapMax) {
+  float n = noise(t);
+  //マッピングしたい値、現在の値の範囲(最小値、最大値)、使いたい範囲
+  float x = map(n, 0, 1, mapMin, mapMax);
+  return x;
 }
 
 class colorBox {
@@ -64,6 +70,7 @@ class colorBox {
   float boxHeight;
   float hue;
   float sat;
+  float tsat;
   float bright;
   colorBox(float _boxCentX, float _boxCentY, float _boxWidth, float _boxHeight, 
     float _hue, float _sat, float _bright) {
@@ -74,6 +81,7 @@ class colorBox {
     hue = _hue;
     sat = _sat;
     bright = _bright;
+    tsat = random(0, 10000);
   }
 
   void display() {
