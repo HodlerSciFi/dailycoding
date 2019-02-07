@@ -11,7 +11,7 @@ void setup() {
   background(0, 0, 100); //白
   frameRate(3);
 
-  gifExport = new GifMaker(this, "20190207.gif"); 
+  gifExport = new GifMaker(this, "20190208.gif"); 
   gifExport.setRepeat(0); 
   gifExport.setQuality(10); 
   gifExport.setDelay(300);
@@ -43,8 +43,8 @@ void setup() {
 void draw() {
   for (int i = 0; i < boxNum; i ++) {
     colorBoxes[i].display();
-    colorBoxes[i].sat = mapNoise(colorBoxes[i].tsat , 0, 100);
-    colorBoxes[i].tsat += 1;
+    colorBoxes[i].bright = mapNoise(colorBoxes[i].tbright , 0, 100);
+    colorBoxes[i].tbright += 1;
   }
   gifExport.addFrame();
   
@@ -72,6 +72,7 @@ class colorBox {
   float sat;
   float tsat;
   float bright;
+  float tbright;
   colorBox(float _boxCentX, float _boxCentY, float _boxWidth, float _boxHeight, 
     float _hue, float _sat, float _bright) {
     boxCentX = _boxCentX;
@@ -82,6 +83,7 @@ class colorBox {
     sat = _sat;
     bright = _bright;
     tsat = random(0, 10000);
+    tbright = random(0, 10000);
   }
 
   void display() {
