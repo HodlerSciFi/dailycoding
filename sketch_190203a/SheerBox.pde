@@ -13,4 +13,8 @@ class SheerBox extends ColorBox {
     rect(boxCentX - boxWidth/2, boxCentY - boxHeight/2, boxWidth, boxHeight);
   }
   
+  void move() {
+    boxCentX += random(-3, 3);
+    boxCentY += random(-3 ,3);
+  }
 }
